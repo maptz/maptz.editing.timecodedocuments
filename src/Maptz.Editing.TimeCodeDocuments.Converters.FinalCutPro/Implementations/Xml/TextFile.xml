@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xmeml xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" version="5">
+  <sequence>
+    <udpatebehavior>add</udpatebehavior>
+    <uuid>7a023a20-b29f-4ac2-acb3-ad52043a86cb</uuid>
+    <name>Some sequence name</name>
+    <duration>1792</duration>
+    <rate>
+      <ntsc>FALSE</ntsc>
+      <timebase>25</timebase>
+    </rate>
+    <timecode>
+      <displayformat>NDF</displayformat>
+      <rate>
+        <ntsc>FALSE</ntsc>
+        <timebase>25</timebase>
+      </rate>
+      <string>00:00:02:00</string>
+      <frame>48</frame>
+      <source>source</source>
+    </timecode>
+    <in>0</in>
+    <out>0</out>
+    <media>
+      <video>
+        <format>
+          <samplecharacterstics>
+            <width>960</width>
+            <height>720</height>
+            <anamorphic>FALSE</anamorphic>
+            <pixelaspectratio>HD-(960x720)</pixelaspectratio>
+            <fielddominance>none</fielddominance>
+            <rate>
+              <ntsc>FALSE</ntsc>
+              <timebase>25</timebase>
+            </rate>
+            <colordepth>24</colordepth>
+            <codec>
+              <name>Apple DVCPRO HD 720p50</name>
+            </codec>
+          </samplecharacterstics>
+        </format>
+        <tracks>
+          <Track>
+            <generatorItems />
+            <enableled>TRUE</enableled>
+            <locked>TRUE</locked>
+          </Track>
+        </tracks>
+      </video>
+    </media>
+    <ismasterclip>FALSE</ismasterclip>
+  </sequence>
+</xmeml>

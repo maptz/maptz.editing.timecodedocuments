@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.0.12</Version>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Maptz.Text.Base" Version="1.1.18" />
+    <PackageReference Include="Maptz.TimeCode.Base" Version="0.0.14" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Concepts\StringDocuments\" />
+  </ItemGroup>
+</Project>

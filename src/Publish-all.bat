@@ -1,0 +1,14 @@
+call ./Maptz.Editing.TimecodeDocuments.Base/publish-library.bat
+cd ..
+call ./Maptz.Editing.TimecodeDocuments.Converters.Base/publish-library.bat
+cd ..
+call ./Maptz.Editing.TimecodeDocuments.Converters.Avid/publish-library.bat
+cd ..
+call ./Maptz.Editing.TimecodeDocuments.Converters.FinalCutPro/publish-library.bat
+cd ..
+call ./Maptz.Editing.TimecodeDocuments.Converters.Misc/publish-library.bat
+cd ..
+call ./Maptz.Editing.TimecodeDocuments.Converters.PlainText/publish-library.bat
+cd ..
+call ./Maptz.Editing.TimecodeDocuments.Converters.All/publish-library.bat
+cd ..

@@ -1,0 +1,17 @@
+
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Concepts\TypeAgnostic\TimeCodeDocument\ITimeCodeDocument.cs-120f0f77fa296d354b97516d38f7f7f8
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Concepts\TypeAgnostic\TimeCodeDocument\ITimeCodeDocumentItem.cs-98d9fcd57372e7f24c4538f3b4823def
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Concepts\TypeAgnostic\TimeCodeDocumentParser\ITimeCodeDocumentParser.cs-a57f2203d671f185d23678358bb4e6b0
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Concepts\TypeAgnostic\TimeCodeDocumentValidators\ITimeCodeDocumentContentValidator.cs-7cd5a5b7d4fbd3808e8d27dfb16fb2e4
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Concepts\TypeAgnostic\TimeCodeDocumentValidators\ITimeCodeDocumentTimeValidator.cs-b0a30dbfde91a292b673174a69b0013a
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\StringDocuments\TimeCodeDocumentParser\ParserMode.cs-d93bfc701a2df15e2a9de898e0ea311b
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\StringDocuments\TimeCodeDocumentParser\TimeCodeStringDocumentParser.cs-e45f52ef75ffac79c805a6888f3cd9e0
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\StringDocuments\TimeCodeDocumentParser\TimeCodeStringDocumentParserSettings.cs-35e0071cc5e5dd849df9dbaf8046494e
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\StringDocuments\TimeCodeDocumentValidators\TimeCodeStringDocumentContentValidator.cs-8c4a13e4a270f940f2a4e3ce9a996bf8
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\StringDocuments\TimeCodeDocumentValidators\TimeCodeStringDocumentContentValidatorSettings.cs-e0874926f33159b675ac4675c9a996d6
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\TypeAgnostic\TimeCodeDocument\TimeCodeDocument.cs-b347b3c95bf29e405673d45e93c77c82
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\TypeAgnostic\TimeCodeDocument\TimeCodeDocumentItem.cs-5f86f16bf149731c1d0994170e149d24
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\TypeAgnostic\TimeCodeDocumentValidators\TimeCodeDocumentTimeValidator.cs-8773d18f124a77a50fc6d1ebaa4deb17
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Implementations\TypeAgnostic\TimeCodeDocumentValidators\TimeCodeDocumentTimeValidatorSettings.cs-c7d0a43e981d52de2b3079e1ff5de5ec
+X:\+++DEV\MaptzGitHub\netcorelibs\maptz.editing.timecodedocuments\src\Maptz.Editing.TimecodeDocuments.Base\Maptz.Editing.TimeCodeDocuments.Base.csproj-03b219f37721f0cff7facb1b399c3de2
+
