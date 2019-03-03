@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+
 namespace Maptz.Editing.TimeCodeDocuments.Converters
 {
 
@@ -24,7 +26,8 @@ namespace Maptz.Editing.TimeCodeDocuments.Converters
             var timeCodeDocumentParser = this.ServiceProvider.GetRequiredService<ITimeCodeDocumentParser<TContent>>();
             var timeCodeDocumentTimeValidator = this.ServiceProvider.GetRequiredService<ITimeCodeDocumentTimeValidator<TContent>>();
             var timeCodeDocumentContentValidator = this.ServiceProvider.GetRequiredService<ITimeCodeDocumentContentValidator<TContent>>();
-            var timeCodeDocumentParseEngine = new TimeCodeDocumentParseEngine<TResult, TContent>(loggerFactory, timeCodeDocumentParser, timeCodeDocumentTimeValidator, timeCodeDocumentContentValidator, timeCodeDocumentConverter);
+            var options = this.ServiceProvider.GetRequiredService<IOptions<TimeCodeDocumentParseEngineOptions<TResult, TContent>>>();
+            var timeCodeDocumentParseEngine = new TimeCodeDocumentParseEngine<TResult, TContent>(options, loggerFactory, timeCodeDocumentParser, timeCodeDocumentTimeValidator, timeCodeDocumentContentValidator, timeCodeDocumentConverter);
             return timeCodeDocumentParseEngine;
         }
     }

@@ -95,6 +95,22 @@ namespace Maptz.Editing.TimeCodeDocuments
             }
             /* #endregion*/
 
+            if (this.Settings.OffsetFrames != 0)
+            {
+                for (int i = 0; i < timelineItems.Length; i++)
+                {
+                    var timelineItem = timelineItems[i];
+                    var offset = this.Settings.OffsetFrames;
+                    var updatedItem = new TimeCodeDocumentItem<T>(timelineItem.RecordIn.TotalFrames + offset,
+                        timelineItem.RecordOut.TotalFrames + offset,
+                        timelineItem.Content,
+                        timelineItem.FrameRate);
+
+                    timelineItems[i] = updatedItem;
+                }
+            }
+            
+
             return new TimeCodeDocument<T>
             {
                 Items = timelineItems

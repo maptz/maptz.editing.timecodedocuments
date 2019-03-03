@@ -1,15 +1,24 @@
+using System;
 using System.Linq;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace Maptz.Editing.TimeCodeDocuments.Converters
 {
 
+    public class TimeCodeDocumentParseEngineOptions<T, TContent>
+    {
+        public long Offset { get; set; }
+        public Func<ITimeCodeDocument<TContent>, ITimeCodeDocument<TContent>> BeforeExport { get; set; }
+    }
 
     /// <summary>
     /// A service used to parse formatted files from loosly timecoded documents. The exact form is determined by the services used. 
     /// </summary>
     public class TimeCodeDocumentParseEngine<T, TContent> : ITimeCodeDocumentParseEngine<T>
     {
+        public TimeCodeDocumentParseEngineOptions<T, TContent> Settings { get; }
+
         /* #region Public Properties */
         public ILogger Logger { get; private set; }
         public ITimeCodeDocumentTimeValidator<TContent> TimeCodeDocumentTimeValidator { get; private set; }
@@ -19,12 +28,14 @@ namespace Maptz.Editing.TimeCodeDocuments.Converters
         /* #endregion Public Properties */
         /* #region Public Constructors */
         public TimeCodeDocumentParseEngine(
+            IOptions<TimeCodeDocumentParseEngineOptions<T, TContent>> options,
             ILoggerFactory loggerFactory,
             ITimeCodeDocumentParser<TContent> timeCodeDocumentParser,
             ITimeCodeDocumentTimeValidator<TContent> timeCodeDocumentTimeValidator,
             ITimeCodeDocumentContentValidator<TContent> timeCodeDocumentContentValidator,
             ITimeCodeDocumentConverter<T, TContent> timeCodeDocumentConverter)
         {
+            this.Settings = options.Value;
             this.Logger = loggerFactory.CreateLogger(typeof(TimeCodeDocumentParseEngine<T, TContent>).Name);
             this.TimeCodeDocumentParser = timeCodeDocumentParser;
             this.TimeCodeDocumentTimeValidator = timeCodeDocumentTimeValidator;
@@ -49,6 +60,15 @@ namespace Maptz.Editing.TimeCodeDocuments.Converters
                 timeCodeDocument = this.TimeCodeDocumentTimeValidator.EnsureValidTimes(timeCodeDocument);
                 timeCodeDocument = this.TimeCodeDocumentContentValidator.EnsureValidContent(timeCodeDocument);
             }
+
+          
+            this.Logger.LogInformation("Performing BeforeExport function");
+            if (this.Settings != null && this.Settings.BeforeExport != null)
+            {
+                timeCodeDocument = this.Settings.BeforeExport(timeCodeDocument);
+            }
+
+
 
             this.Logger.LogInformation("Converting TimeCoded spans.");
             {

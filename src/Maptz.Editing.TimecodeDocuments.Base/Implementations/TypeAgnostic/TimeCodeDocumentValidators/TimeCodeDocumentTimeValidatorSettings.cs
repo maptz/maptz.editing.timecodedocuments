@@ -5,7 +5,7 @@ namespace Maptz.Editing.TimeCodeDocuments
     /// </summary>
     public class TimeCodeDocumentTimeValidatorSettings
     {
-
+        public int OffsetFrames { get; set; }
 
 
         /// <summary>
