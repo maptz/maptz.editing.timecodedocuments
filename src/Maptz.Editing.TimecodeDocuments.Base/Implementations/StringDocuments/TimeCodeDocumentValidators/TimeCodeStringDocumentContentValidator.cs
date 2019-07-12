@@ -69,7 +69,7 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
                 foreach (var l in ls)
                 {
                     var newContent = string.Join(Environment.NewLine, l);
-                    var newSpan = new TimeCodeDocumentItem<string>(span.Start, span.Length, newContent, span.FrameRate);
+                    var newSpan = new TimeCodeDocumentItem<string>(span.Start, span.Length, newContent, span.FrameRate, span.TextSpan, span.ContentTextSpan, span.PrefixTextSpan);
                     retval.Add(newSpan);
                 }
             }

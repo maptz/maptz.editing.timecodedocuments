@@ -28,18 +28,37 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
                 Items = new TimeCodeDocumentItem<string>[0]
             };
             var items = new List<ITimeCodeDocumentItem<string>>();
-            var lines = content.Split(new string[] { Environment.NewLine, "\n", "\r" }, StringSplitOptions.None);
+            var prefix = string.Empty;
+            var remain = content;
+
             ITimeCodeDocumentItem<string> currentItem = null;
-            for (int i = 0; i < lines.Length; i++)
-            {
-                var line = lines[i];
+            while (remain.Length > 0){
+
+                //var idx = remain.IndexOfAny(new char[] { '\n', '\r' });
+                var regex = new Regex("[\\r\\n]+"); //Capture this line, plus any subsequence empty lines.
+                var match = regex.Match(remain);
+                var idx = match.Success ? match.Index : -1;
+
+                string line;
+                if (idx < 0)
+                {
+                    line = remain;
+                    prefix += remain;
+                    remain = string.Empty;
+                }
+                else
+                {
+                    line = remain.Substring(0, idx + match.Length);
+                    prefix += line;
+                    remain = remain.Substring(idx + match.Length);
+                }
+
 
                 var lineTrim = line.Trim();
                 var tcMatchPattern = "^[0-9]+[\\:\\.\\;][0-9]+[\\:\\.\\;][0-9]+([\\:\\.\\;][0-9]+)*";
                 var regexMatch = Regex.Match(lineTrim, tcMatchPattern);
                 if (regexMatch.Success)
                 {
-
                     var startStr = CleanTcString(lineTrim.Substring(0, regexMatch.Length));
                     if (this.Settings.IgnoreFrames)
                     {
@@ -81,7 +100,10 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
 
                         if (currentItem != null) { items.Add(currentItem); }
 
-                        var s = new TimeCodeDocumentItem<string>(startTC.TotalFrames, endTC.TotalFrames - startTC.TotalFrames, string.Empty, this.Settings.FrameRate);
+                        var s = new TimeCodeDocumentItem<string>(startTC.TotalFrames, endTC.TotalFrames - startTC.TotalFrames, string.Empty, this.Settings.FrameRate, 
+                            textSpan: new TextSpan(prefix.Length - line.Length, line.Length, content), 
+                            contentTextSpan: new TextSpan(prefix.Length, 0, content),
+                            prefixTextSpan: new TextSpan(prefix.Length - line.Length, line.Length, content));
                         currentItem = s;
                     }
                     else
@@ -89,21 +111,30 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
                         //If you don't want to store the remainder..just pass string.empty.
                         var str = this.Settings.IgnoreTimeCodeLineRemainder ? string.Empty : remainder;
                         if (currentItem != null) { items.Add(currentItem); }
-                        currentItem = new TimeCodeDocumentItem<string>(startTC.TotalFrames, 0, str, this.Settings.FrameRate);
+                        currentItem = new TimeCodeDocumentItem<string>(startTC.TotalFrames, 0, str, this.Settings.FrameRate, 
+                            textSpan: new TextSpan(prefix.Length - line.Length, line.Length, content), 
+                            contentTextSpan: new TextSpan(prefix.Length, 0, content),
+                            prefixTextSpan: new TextSpan(prefix.Length - line.Length, line.Length, content));
                     }
 
                 }
                 else
                 {
-                    if (currentItem == null) { continue; }
+                    if (currentItem == null) {
+                        //We haven't started yet. 
+                        continue;
+                    }
                     string currentContent = currentItem.Content;
                     if (!string.IsNullOrEmpty(currentContent))
                     {
-                        currentContent += Environment.NewLine;
+                        //currentContent += Environment.NewLine;
                     }
                     currentContent += line;
-                    currentItem = new TimeCodeDocumentItem<string>(currentItem.Start, currentItem.Length, currentContent, this.Settings.FrameRate);
+                    var newTextSpan = new TextSpan(currentItem.TextSpan.Start, prefix.Length - currentItem.TextSpan.Start, content);
+                    var newContentTextSpan = new TextSpan(currentItem.ContentTextSpan.Start, prefix.Length - currentItem.ContentTextSpan.Start, content);
+                    currentItem = new TimeCodeDocumentItem<string>(currentItem.Start, currentItem.Length, currentContent, this.Settings.FrameRate, newTextSpan, newContentTextSpan, currentItem.PrefixTextSpan);
                 }
+
             }
 
             if (currentItem != null && currentItem.Content != null)

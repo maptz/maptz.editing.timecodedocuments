@@ -46,7 +46,7 @@ namespace Maptz.Editing.TimeCodeDocuments
                     var issueItem = startFrameIssueGroup.ElementAt(i);
                     var newStart = TimeCode.FromFrames(startFrame + i * totalFramesPerItem, issueItem.FrameRate);
                     var indexOfItem = originalTimelineitemslist.IndexOf(issueItem);
-                    timelineItems[indexOfItem] = new TimeCodeDocumentItem<T>(newStart.TotalFrames, issueItem.Length, issueItem.Content, issueItem.FrameRate);
+                    timelineItems[indexOfItem] = new TimeCodeDocumentItem<T>(newStart.TotalFrames, issueItem.Length, issueItem.Content, issueItem.FrameRate, issueItem.TextSpan, issueItem.ContentTextSpan, issueItem.PrefixTextSpan);
                 }
             }
             /* #endregion*/
@@ -71,13 +71,13 @@ namespace Maptz.Editing.TimeCodeDocuments
                 if (currentItem.RecordOut == null || currentItem.RecordOut.TotalFrames <= currentItem.RecordIn.TotalFrames)
                 {
                     var newRecordOut = TimeCode.FromFrames(maxEnd, currentItem.FrameRate);
-                    currentItem = new TimeCodeDocumentItem<T>(currentItem.Start, newRecordOut.TotalFrames - currentItem.Start, currentItem.Content, currentItem.FrameRate);
+                    currentItem = new TimeCodeDocumentItem<T>(currentItem.Start, newRecordOut.TotalFrames - currentItem.Start, currentItem.Content, currentItem.FrameRate, currentItem.TextSpan, currentItem.ContentTextSpan, currentItem.PrefixTextSpan);
                     timelineItems[j - 1] = currentItem;
                 }
                 else if (currentItem.RecordOut.TotalFrames > maxEnd)
                 {
                     var newRecordOut = TimeCode.FromFrames(maxEnd, currentItem.FrameRate);
-                    currentItem = new TimeCodeDocumentItem<T>(currentItem.Start, newRecordOut.TotalFrames - currentItem.Start, currentItem.Content, currentItem.FrameRate);
+                    currentItem = new TimeCodeDocumentItem<T>(currentItem.Start, newRecordOut.TotalFrames - currentItem.Start, currentItem.Content, currentItem.FrameRate, currentItem.TextSpan, currentItem.ContentTextSpan, currentItem.PrefixTextSpan);
                     timelineItems[j - 1] = currentItem;
                 }
 
@@ -87,7 +87,7 @@ namespace Maptz.Editing.TimeCodeDocuments
                     {
                         var newRecordOut = TimeCode.FromFrames(nextItem.RecordIn.TotalFrames + this.Settings.DefaultDurationFrames, nextItem.FrameRate);
 
-                        nextItem = new TimeCodeDocumentItem<T>(nextItem.Start, newRecordOut.TotalFrames - nextItem.Start, nextItem.Content, nextItem.FrameRate);
+                        nextItem = new TimeCodeDocumentItem<T>(nextItem.Start, newRecordOut.TotalFrames - nextItem.Start, nextItem.Content, nextItem.FrameRate, currentItem.TextSpan, currentItem.ContentTextSpan, currentItem.PrefixTextSpan);
                         timelineItems[j] = nextItem;
                     }
                 }
@@ -104,7 +104,7 @@ namespace Maptz.Editing.TimeCodeDocuments
                     var updatedItem = new TimeCodeDocumentItem<T>(timelineItem.RecordIn.TotalFrames + offset,
                         timelineItem.RecordOut.TotalFrames + offset,
                         timelineItem.Content,
-                        timelineItem.FrameRate);
+                        timelineItem.FrameRate, timelineItem.TextSpan, timelineItem.ContentTextSpan, timelineItem.PrefixTextSpan);
 
                     timelineItems[i] = updatedItem;
                 }
