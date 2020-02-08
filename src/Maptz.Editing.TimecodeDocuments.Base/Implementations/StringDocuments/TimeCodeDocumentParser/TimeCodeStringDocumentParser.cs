@@ -32,7 +32,8 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
             var remain = content;
 
             ITimeCodeDocumentItem<string> currentItem = null;
-            while (remain.Length > 0){
+            while (remain.Length > 0)
+            {
 
                 //var idx = remain.IndexOfAny(new char[] { '\n', '\r' });
                 var regex = new Regex("[\\r\\n]+"); //Capture this line, plus any subsequence empty lines.
@@ -100,19 +101,32 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
 
                         if (currentItem != null) { items.Add(currentItem); }
 
-                        var s = new TimeCodeDocumentItem<string>(startTC.TotalFrames, endTC.TotalFrames - startTC.TotalFrames, string.Empty, this.Settings.FrameRate, 
-                            textSpan: new TextSpan(prefix.Length - line.Length, line.Length, content), 
+                        if (endTC.TotalFrames < startTC.TotalFrames)
+                        {
+                            var str = this.Settings.IgnoreTimeCodeLineRemainder ? string.Empty : remainder;
+                            currentItem = new TimeCodeDocumentItem<string>(startTC.TotalFrames, 0, str, this.Settings.FrameRate,
+                          textSpan: new TextSpan(prefix.Length - line.Length, line.Length, content),
+                          contentTextSpan: new TextSpan(prefix.Length, 0, content),
+                          prefixTextSpan: new TextSpan(prefix.Length - line.Length, line.Length, content));
+                        }
+                        else
+                        {
+                            var s = new TimeCodeDocumentItem<string>(startTC.TotalFrames, endTC.TotalFrames - startTC.TotalFrames, string.Empty, this.Settings.FrameRate,
+                            textSpan: new TextSpan(prefix.Length - line.Length, line.Length, content),
                             contentTextSpan: new TextSpan(prefix.Length, 0, content),
                             prefixTextSpan: new TextSpan(prefix.Length - line.Length, line.Length, content));
-                        currentItem = s;
+                            currentItem = s;
+                        }
+
+
                     }
                     else
                     {
                         //If you don't want to store the remainder..just pass string.empty.
                         var str = this.Settings.IgnoreTimeCodeLineRemainder ? string.Empty : remainder;
                         if (currentItem != null) { items.Add(currentItem); }
-                        currentItem = new TimeCodeDocumentItem<string>(startTC.TotalFrames, 0, str, this.Settings.FrameRate, 
-                            textSpan: new TextSpan(prefix.Length - line.Length, line.Length, content), 
+                        currentItem = new TimeCodeDocumentItem<string>(startTC.TotalFrames, 0, str, this.Settings.FrameRate,
+                            textSpan: new TextSpan(prefix.Length - line.Length, line.Length, content),
                             contentTextSpan: new TextSpan(prefix.Length, 0, content),
                             prefixTextSpan: new TextSpan(prefix.Length - line.Length, line.Length, content));
                     }
@@ -120,7 +134,8 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
                 }
                 else
                 {
-                    if (currentItem == null) {
+                    if (currentItem == null)
+                    {
                         //We haven't started yet. 
                         continue;
                     }
@@ -146,7 +161,7 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
                 Items = items.ToArray()
             };
         }
-     
+
 
         private string CleanTcString(string tc)
         {
@@ -164,7 +179,7 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
                     split.Insert(0, "00");
                 }
                 else throw new NotSupportedException();
-                
+
             }
 
             split = split.Select(p => int.Parse(p).ToString("00")).ToList();

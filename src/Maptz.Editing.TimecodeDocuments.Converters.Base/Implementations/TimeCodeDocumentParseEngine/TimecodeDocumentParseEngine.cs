@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -45,7 +46,7 @@ namespace Maptz.Editing.TimeCodeDocuments.Converters
         /* #endregion Public Constructors */
         /* #region Interface: 'Maptz.Avid.Ds.ITimecodeDocumentTransformerService' Methods */
 
-        public T Parse(string source)
+        public T Parse(string source, IList<string> warnings)
         {
 
             ITimeCodeDocument<TContent> timeCodeDocument;
@@ -57,17 +58,26 @@ namespace Maptz.Editing.TimeCodeDocuments.Converters
 
             this.Logger.LogInformation("Cleaning TimeCoded spans.");
             {
+                var warningsO = this.TimeCodeDocumentTimeValidator.IssueWarnings(timeCodeDocument);
+                foreach (var warning in warningsO)
+                {
+                    this.Logger.LogError(warning);
+                    if (warnings != null)
+                        warnings.Add(warning);
+                }
+
+                //Time validator ensures that the timecodes are in the right order and are non-overlapping. 
                 timeCodeDocument = this.TimeCodeDocumentTimeValidator.EnsureValidTimes(timeCodeDocument);
+                //Content validator cleans the text in the TimeCodeDocument.
                 timeCodeDocument = this.TimeCodeDocumentContentValidator.EnsureValidContent(timeCodeDocument);
             }
 
-          
+
             this.Logger.LogInformation("Performing BeforeExport function");
             if (this.Settings != null && this.Settings.BeforeExport != null)
             {
                 timeCodeDocument = this.Settings.BeforeExport(timeCodeDocument);
             }
-
 
 
             this.Logger.LogInformation("Converting TimeCoded spans.");

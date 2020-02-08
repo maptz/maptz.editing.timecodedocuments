@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.Options;
 namespace Maptz.Editing.TimeCodeDocuments
@@ -12,6 +13,42 @@ namespace Maptz.Editing.TimeCodeDocuments
         public TimeCodeDocumentTimeValidator(IOptions<TimeCodeDocumentTimeValidatorSettings> settings)
         {
             this.Settings = settings.Value;
+        }
+
+        private int GetLineNumber(int position, ITextSpan span)
+        {
+            var prefix = span.Document.Substring(0, position);
+            var lines = prefix.Split(new string[] { "\r\n", "\n", }, StringSplitOptions.None);
+            return lines.Length;
+        }
+
+        public string GetStringFromSpan(ITextSpan textSpan)
+        {
+            return textSpan.Document.Substring(textSpan.Start, textSpan.Length);
+        }
+
+        public IEnumerable<string> IssueWarnings(ITimeCodeDocument<T> timeCodeDocument)
+        {
+            var timelineItems = timeCodeDocument.Items.ToArray();
+            List<string> retval = new List<string>();
+            for (int i = 1; i < timelineItems.Length; i++)
+            {
+                var previous = timelineItems[i - 1];
+                var thisOne = timelineItems[i];
+
+                if (thisOne.RecordIn.TotalFrames <= previous.RecordIn.TotalFrames)
+                {
+                    var lineNumber = GetLineNumber(thisOne.PrefixTextSpan.Start, thisOne.PrefixTextSpan);
+                    var prefixStr = GetStringFromSpan(thisOne.PrefixTextSpan).Trim();
+                    var previousLineNumber = GetLineNumber(previous.PrefixTextSpan.Start, previous.PrefixTextSpan);
+                    var previousPrefix = GetStringFromSpan(previous.PrefixTextSpan).Trim();
+
+                    var warning = $"Line {lineNumber}: Timecode '{prefixStr}' is before previous timecode (Line {previousLineNumber}: '{previousPrefix}').";
+                    retval.Add(warning);
+                }
+
+            }
+            return retval;
         }
 
 

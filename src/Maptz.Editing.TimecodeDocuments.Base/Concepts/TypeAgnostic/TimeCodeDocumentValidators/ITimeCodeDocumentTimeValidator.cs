@@ -13,6 +13,7 @@ namespace Maptz.Editing.TimeCodeDocuments
     /// </summary>
     public interface ITimeCodeDocumentTimeValidator<T>
     {
+        IEnumerable<string> IssueWarnings(ITimeCodeDocument<T> timeCodeDocument);
         ITimeCodeDocument<T> EnsureValidTimes(ITimeCodeDocument<T> document);
     }
 }

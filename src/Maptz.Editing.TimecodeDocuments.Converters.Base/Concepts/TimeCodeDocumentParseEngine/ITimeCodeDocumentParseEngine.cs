@@ -5,6 +5,6 @@ namespace Maptz.Editing.TimeCodeDocuments
 {
     public interface ITimeCodeDocumentParseEngine<T>
     {
-        T Parse(string str);
+        T Parse(string str, IList<string> warnings);
     }
 }
