@@ -52,7 +52,7 @@ namespace Maptz.Editing.TimeCodeDocuments.Converters
             ITimeCodeDocument<TContent> timeCodeDocument;
             this.Logger.LogInformation("Looking for TimeCoded spans in text");
             {
-                timeCodeDocument = this.TimeCodeDocumentParser.Parse(source);
+                timeCodeDocument = this.TimeCodeDocumentParser.Parse(source, warnings);
                 this.Logger.LogInformation($"Found {timeCodeDocument.Items.Count()} TimeCoded spans.");
             }
 

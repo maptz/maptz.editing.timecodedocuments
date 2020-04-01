@@ -13,6 +13,6 @@ namespace Maptz.Editing.TimeCodeDocuments
         /// <param name="input"></param>
         /// <param name="frameRate"></param>
         /// <returns></returns>
-        ITimeCodeDocument<T> Parse(string input);
+        ITimeCodeDocument<T> Parse(string input, IList<string> warnings);
     }
 }

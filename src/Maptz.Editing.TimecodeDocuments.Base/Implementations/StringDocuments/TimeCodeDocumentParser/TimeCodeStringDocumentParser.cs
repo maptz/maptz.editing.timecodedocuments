@@ -21,7 +21,7 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
         public TimeCodeStringDocumentParserSettings Settings { get; private set; }
 
 
-        public ITimeCodeDocument<string> Parse(string content)
+        public ITimeCodeDocument<string> Parse(string content, IList<string> warnings)
         {
             if (content == null) return new TimeCodeDocument<string>
             {
@@ -77,8 +77,12 @@ namespace Maptz.Editing.TimeCodeDocuments.StringDocuments
                     }
                     catch (Exception)
                     {
-                        System.Diagnostics.Debugger.Launch();
-                        //Skip over an exception parsing a line
+                        //System.Diagnostics.Debugger.Launch();
+                        warnings.Add($"Invalid timecode {lineTrim}");
+                        //Console.WriteLine("ERROR at line " + startStr);
+                        //TODO: Fix this here. Need to up the warnings
+                        //Skip over an exception parsing a line 
+                        //TODO 
                         continue;
                     }
 
